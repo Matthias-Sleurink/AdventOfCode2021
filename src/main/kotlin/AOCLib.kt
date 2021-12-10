@@ -62,6 +62,13 @@ operator fun String.minus(other: String): String {
 fun <T> MutableCollection<T>.removeFirst()
         = with(iterator()){ next().also{ remove() }}
 
+fun List<Long>.median(): Long {
+    return this.sorted()[this.size / 2]
+}
+fun List<Int>.median(): Int {
+    return this.sorted()[this.size / 2]
+}
+
 
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
