@@ -36,12 +36,12 @@ fun main() {
     println("----- Result 2: $part2res")
     testFinalResult(part2res,null)
 
-    println("The time for part 1 and 2 without reading but with parsing (twice)")
-    println("Time (ms):" + measureTimeMillis {
-        part1(data)
-        part2(data)
-    })
-
-
-
+    println("The time for part 1 and 2 (1000X) without reading but with parsing (twice for each run)")
+    println("Time (ms): " + measureTimeMillis {
+        repeat(1000) {
+            part1(data)
+            part2(data)
+            }
+        }
+    )
 }

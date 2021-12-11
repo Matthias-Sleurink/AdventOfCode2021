@@ -69,6 +69,7 @@ fun List<Int>.median(): Int {
     return this.sorted()[this.size / 2]
 }
 
+infix fun <A,B> A.pairWith(that: B): Pair<A, B> = Pair(this, that)
 
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
