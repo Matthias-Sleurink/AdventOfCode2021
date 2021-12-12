@@ -35,6 +35,36 @@ fun main() {
         }.flatten()
     }
 
+    fun routesFrom2(tillNow: Stack<String>, end: String, map: Map<String, List<String>>, hasVisitedTwice: Boolean): List<List<String>> {
+        if (tillNow.peek() == end)
+            return listOf(tillNow.toList())
+
+        return map[tillNow.peek()]!!.mapNotNull {
+            if (it.isLowercase()) {
+                if (hasVisitedTwice) {
+                    if (it in tillNow)
+                        return@mapNotNull null
+                    tillNow.push(it)
+                    return@mapNotNull routesFrom2(tillNow, end, map, hasVisitedTwice = true).also { tillNow.pop() }
+                } else {
+                    if (it in tillNow) {
+                        tillNow.push(it)
+                        return@mapNotNull routesFrom2(tillNow, end, map, hasVisitedTwice = true).also { tillNow.pop() }
+                    }
+                    else {
+                        tillNow.push(it)
+                        return@mapNotNull routesFrom2(tillNow, end, map, hasVisitedTwice = false).also { tillNow.pop() }
+                    }
+                }
+
+            } else { // uppercase
+                // we are allowed to return to this node since it is uppercase
+                tillNow.push(it)
+                routesFrom2(tillNow, end, map, hasVisitedTwice).also { tillNow.pop() }
+            }
+        }.flatten()
+    }
+
     fun part1(inputLines: List<String>): String {
         val map = parseInput(inputLines)
         val tillNow = stackOf("start")
@@ -61,6 +91,19 @@ fun main() {
                             .toString()
     }
 
+
+    fun part2_2(inputLines: List<String>): String {
+        return routesFrom2(
+            stackOf("start"),
+            "end",
+            parseInput(inputLines).mapValues { (_, to) -> to.toMutableList().also { it.remove("start") }.toList() },
+            hasVisitedTwice = false
+        )
+            .distinct()
+            .count()
+            .toString()
+    }
+
     val testData = readTestFileForDay(day)
     val part1test = part1(testData)
     println("----- Test result 1: $part1test")
@@ -75,16 +118,23 @@ fun main() {
     println("----- Test result 2: $part2test")
     testResult(part2test, "36")
 
+    val part2_2test = part2_2(testData)
+    println("----- Test result 2_2: $part2_2test")
+    testResult(part2_2test, "36")
+
     val part2res = part2(data)
     println("----- Result 2: $part2res")
     testFinalResult(part2res,"93858")
 
-    println("The time for part 1 and 2 (10X) without reading but with parsing (twice for each run)")
-    println("Time (ms): " + measureTimeMillis {
-        repeat(10) {
-            part1(data)
-            part2(data)
-            }
-        }
-    )
+    val part2_2res = part2_2(data)
+    println("----- Result 2_2: $part2_2res")
+//    testFinalResult(part2_2res,"93858")
+
+
+    println("The time for part 1 (10X) without reading but with parsing each run")
+    println("Time (ms): " + measureTimeMillis {repeat(10) {part1(data)}})
+    println("The time for part 2 (10X) without reading but with parsing each run")
+    println("Time (ms): " + measureTimeMillis {repeat(10) {part2(data)}})
+    println("The time for part 2_2 (10X) without reading but with parsing each run")
+    println("Time (ms): " + measureTimeMillis {repeat(10) {part2_2(data)}})
 }
