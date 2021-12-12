@@ -1,4 +1,5 @@
 import java.io.File
+import java.util.*
 
 fun readFileForDay(day: Int): List<String> {
     val name = day.toString().padStart(2, '0')
@@ -70,6 +71,16 @@ fun List<Int>.median(): Int {
 }
 
 infix fun <A,B> A.pairWith(that: B): Pair<A, B> = Pair(this, that)
+
+fun String.isLowercase(): Boolean {
+    return this.all { it.isLowerCase() }
+}
+
+fun String.isUppercase(): Boolean {
+    return this.all { it.isUpperCase() }
+}
+
+fun <A> stackOf(head: A): Stack<A> = Stack<A>().also { it.push(head) }
 
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
