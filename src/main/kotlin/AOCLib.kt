@@ -88,4 +88,8 @@ fun String.toIntPair(splitter: String = ","): Pair<Int, Int> {
 
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
+fun <E> IntCounter(): MutableMap<E, Int> = mutableMapOf<E, Int>().withDefault { 0 }
+
+// This is supposed to act like it is a constructor, so we name it like a class
+@Suppress("FunctionName")
 fun <E> Counter(): MutableMap<E, Int> = mutableMapOf<E, Int>().withDefault { 0 }

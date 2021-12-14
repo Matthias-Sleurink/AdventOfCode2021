@@ -36,7 +36,7 @@ fun main() {
 //    println(Line(Pair(1,1), Pair(3,3)).allPoints().toList())
 //    println(Line(Pair(9,7), Pair(7,9)).allPoints().toList())
 
-    class Board constructor (lines: List<Line>, val board: MutableMap<Pair<Int, Int>, Int> = Counter()) {
+    class Board constructor (lines: List<Line>, val board: MutableMap<Pair<Int, Int>, Int> = IntCounter()) {
         init {
             lines.forEach { line ->
                 line.allPoints().forEach {
