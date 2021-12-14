@@ -82,6 +82,10 @@ fun String.isUppercase(): Boolean {
 
 fun <A> stackOf(head: A): Stack<A> = Stack<A>().also { it.push(head) }
 
+fun String.toIntPair(splitter: String = ","): Pair<Int, Int> {
+    return this.split(splitter).let { (left, right) -> left.toInt() pairWith right.toInt()}
+}
+
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
 fun <E> Counter(): MutableMap<E, Int> = mutableMapOf<E, Int>().withDefault { 0 }
