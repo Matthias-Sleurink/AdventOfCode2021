@@ -61,10 +61,10 @@ fun main() {
             board[y][x] = true
         }
 
-        val result = StringBuilder(xmax * ymax)
+        val result = StringBuilder(xmax * ymax * 2)
         board.forEach { row ->
             row.forEach { colElem ->
-                result.append(if (colElem) '▉' else ' ')
+                result.append(if (colElem) "▉▉▉" else "   ")
             }
             result.append("\n")
         }
