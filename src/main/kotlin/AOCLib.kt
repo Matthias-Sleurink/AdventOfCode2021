@@ -86,10 +86,26 @@ fun String.toIntPair(splitter: String = ","): Pair<Int, Int> {
     return this.split(splitter).let { (left, right) -> left.toInt() pairWith right.toInt()}
 }
 
+fun <K, V> Iterable<Pair<K, V>>.toMutableMap(): MutableMap<K, V> = this.toMap().toMutableMap()
+
+fun <E> List<E>.toPair(): Pair<E, E> {
+    check(this.count() == 2)
+    return this.first() pairWith this.second()
+}
+
+fun String.second(): Char = this.drop(1).first()
+
+
+fun <E> List<E>.second(): E = this.component2()
+fun <E> List<E>.third(): E = this.component3()
+fun <E> List<E>.fourth(): E = this.component4()
+fun <E> List<E>.fifth(): E = this.component5()
+
+
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
 fun <E> IntCounter(): MutableMap<E, Int> = mutableMapOf<E, Int>().withDefault { 0 }
 
 // This is supposed to act like it is a constructor, so we name it like a class
 @Suppress("FunctionName")
-fun <E> Counter(): MutableMap<E, Int> = mutableMapOf<E, Int>().withDefault { 0 }
+fun <E> Counter(): MutableMap<E, Long> = mutableMapOf<E, Long>().withDefault { 0 }
