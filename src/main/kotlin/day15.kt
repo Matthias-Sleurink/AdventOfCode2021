@@ -1,5 +1,6 @@
 @file:Suppress("DuplicatedCode")
 
+import java.util.*
 import kotlin.system.measureTimeMillis
 
 fun main() {
@@ -25,12 +26,13 @@ fun main() {
     // board to score
     fun lowestPath(board: List<List<Int>>): Int {
         // pairs store X,Y
-        var paths = mutableListOf(Pair(0, Pair(0,0)))
+        // Yes, 1000 as initial size is by far the fastest (round) size here, a bit over what the maximum size ever is.
+        val paths = PriorityQueue<Pair<Int, Pair<Int, Int>>>(1000) { l, r -> l.first - r.first }
+        paths.add(Pair(0, Pair(0,0)))
 
         val visited = mutableSetOf(Pair(0, 0))
         do {
-            val currRoute = paths.removeFirst()
-//            println(currRoute)
+            val currRoute = paths.poll()
             if (currRoute.second == Pair(board[0].size-1, board.size-1))
                 return currRoute.first
 
@@ -38,13 +40,13 @@ fun main() {
                 .filter { it !in visited}
                 .filter { it xycoordInListOfLists board }
                 .forEach { newLocation ->
+                    val newScore = currRoute.first + board[newLocation.second][newLocation.first]
                     paths.add(Pair(
-                        currRoute.first + board[newLocation.second][newLocation.first],
+                        newScore,
                         newLocation
                         ))
                     visited.add(newLocation)
                 }
-            paths = paths.sortedBy { it.first }.toMutableList()
         } while (true)
     }
 
@@ -92,7 +94,7 @@ fun main() {
     println("----- Result 2: $part2res")
     testFinalResult(part2res,"3016")
 
-    
+//    TODO()
     println("Time one : " + measureTimeMillis { part1(data) })
     println("time expa: " + measureTimeMillis { multBoard(parseInput(data)) })
     println("Time two : " + measureTimeMillis { part2(data) })
